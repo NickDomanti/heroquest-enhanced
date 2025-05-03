@@ -18,4 +18,10 @@ const router = createRouter({
   ]
 })
 
+// Scroll to top on route change
+router.beforeEach((_to, _from, next) => {
+  window.scrollTo({ top: 0 })
+  next()
+})
+
 export default router

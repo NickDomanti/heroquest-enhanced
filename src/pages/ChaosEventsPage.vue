@@ -58,6 +58,13 @@ const getRandomEvent = async () => {
         <p>{{ currentEvent.effect }}</p>
       </div>
     </div>
+
+    <p class="note">
+      <b>Note:</b>
+      <br />
+      When an effect targets a random hero, Zargon must roll a D4 and use the result to count in a
+      clockwise direction from themselves to determine which hero to target.
+    </p>
   </div>
 </template>
 
@@ -84,10 +91,12 @@ h1 {
   max-width: 300px;
 }
 
-.event-button:hover:not(:disabled) {
-  background-color: var(--secondary-color);
-  color: var(--background-color);
-  transform: scale(1.05);
+@media (hover: hover) {
+  .event-button:hover:not(:disabled) {
+    background-color: var(--secondary-color);
+    color: var(--background-color);
+    transform: scale(1.05);
+  }
 }
 
 .event-button:disabled {
@@ -116,7 +125,7 @@ h1 {
 }
 
 .event-result {
-  background-color: var(--background-color);
+  background-color: var(--card-background);
   border: 2px solid var(--border-color);
   border-radius: 8px;
   padding: 1.5rem;
@@ -162,6 +171,12 @@ h1 {
 
 .event-effect p {
   margin: 0;
+  font-style: italic;
+}
+
+.note {
+  margin-top: 2rem;
+  font-size: 0.8rem;
   font-style: italic;
 }
 </style>
