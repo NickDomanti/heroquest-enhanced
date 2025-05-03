@@ -14,8 +14,23 @@ const getRandomEvent = async () => {
   // Simulate a short delay for dramatic effect
   await new Promise(resolve => setTimeout(resolve, 1000))
 
-  const randomIndex = Math.floor(Math.random() * events.length)
-  currentEvent.value = events[randomIndex]
+  // Calculate total weight
+  const totalWeight = events.reduce((sum, event) => sum + event.weight, 0)
+
+  // Generate random number between 0 and total weight
+  let random = Math.random() * totalWeight
+
+  // Find the event based on weight
+  let selectedEvent = events[0]
+  for (const event of new Set(events)) {
+    random -= event.weight
+    if (random <= 0) {
+      selectedEvent = event
+      break
+    }
+  }
+
+  currentEvent.value = selectedEvent
   isLoading.value = false
 
   // Scroll to the event result after it's generated
