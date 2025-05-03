@@ -50,10 +50,14 @@ header {
   border-bottom: 2px solid var(--border-color);
 }
 
-header h1 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   color: var(--secondary-color);
   margin: 0;
-  font-size: 2rem;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 

@@ -1,7 +1,9 @@
+<script setup lang="ts"></script>
+
 <template>
   <div class="home-page">
     <div class="welcome-card">
-      <h2>Welcome to Heroquest Enhanced</h2>
+      <h1>Welcome to Heroquest Enhanced</h1>
       <p>
         Your digital enhancer for the classic board game adventure.
         <br />
@@ -35,12 +37,6 @@
   text-align: center;
 }
 
-.welcome-card h2 {
-  color: var(--secondary-color);
-  margin-top: 0;
-  font-size: 2rem;
-}
-
 .welcome-card p {
   font-size: 1.2rem;
   line-height: 1.6;
@@ -65,13 +61,6 @@
 .card-header {
   background-color: var(--primary-color);
   padding: 1.5rem;
-}
-
-.card-header h2 {
-  color: var(--secondary-color);
-  margin: 0;
-  font-size: 1.8rem;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .card-header p {

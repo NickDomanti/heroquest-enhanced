@@ -1,22 +1,3 @@
-<template>
-  <div class="chaos-events-page">
-    <h1>Chaos Events</h1>
-
-    <div class="chaos-events-card">
-      <button @click="getRandomEvent" class="event-button" :disabled="isLoading">
-        {{ isLoading ? 'Rolling...' : 'Roll for Event' }}
-      </button>
-
-      <div v-if="isLoading" class="loading-wheel"></div>
-
-      <div v-if="currentEvent && !isLoading" class="event-result">
-        <h3>{{ currentEvent.title }}</h3>
-        <p>{{ currentEvent.description }}</p>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { ref } from 'vue'
 import type { ChaosEvent } from '../data/events'
@@ -24,6 +5,7 @@ import { events } from '../data/events'
 
 const currentEvent = ref<ChaosEvent | null>(null)
 const isLoading = ref(false)
+const eventResultRef = ref<HTMLElement | null>(null)
 
 const getRandomEvent = async () => {
   isLoading.value = true
@@ -35,8 +17,34 @@ const getRandomEvent = async () => {
   const randomIndex = Math.floor(Math.random() * events.length)
   currentEvent.value = events[randomIndex]
   isLoading.value = false
+
+  // Scroll to the event result after it's generated
+  setTimeout(() => {
+    eventResultRef.value?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  }, 100)
 }
 </script>
+
+<template>
+  <div class="chaos-events-page">
+    <h1>Chaos Events</h1>
+
+    <button @click="getRandomEvent" class="event-button" :disabled="isLoading">
+      {{ isLoading ? 'Rolling...' : 'Roll for Event' }}
+    </button>
+
+    <div v-if="isLoading" class="loading-wheel"></div>
+
+    <div v-if="currentEvent && !isLoading" class="event-result" ref="eventResultRef">
+      <h3>{{ currentEvent.title }}</h3>
+      <p>{{ currentEvent.description }}</p>
+      <div class="event-effect">
+        <h4>Effect:</h4>
+        <p>{{ currentEvent.effect }}</p>
+      </div>
+    </div>
+  </div>
+</template>
 
 <style scoped>
 .chaos-events-page {
@@ -44,19 +52,7 @@ const getRandomEvent = async () => {
 }
 
 h1 {
-  color: var(--secondary-color);
-  margin: 0 0 2rem;
-  font-size: 2.5rem;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-.chaos-events-card {
-  background-color: var(--card-background);
-  border: 2px solid var(--border-color);
-  border-radius: 8px;
-  padding: 2rem;
-  text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  margin-bottom: 2rem;
 }
 
 .event-button {
@@ -135,12 +131,22 @@ h1 {
 .event-result p {
   font-size: 1.1rem;
   line-height: 1.6;
-  margin-bottom: 0;
+  margin: 0.5rem 0;
 }
 
 .event-effect {
   margin-top: 1rem;
   padding-top: 1rem;
-  border-top: 1px solid var(--border-color);
+  border-top: 2px solid var(--border-color);
+}
+
+.event-effect h4 {
+  margin: 0 0 0.5rem;
+  font-size: 1.2rem;
+}
+
+.event-effect p {
+  margin: 0;
+  font-style: italic;
 }
 </style>
