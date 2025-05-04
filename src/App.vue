@@ -4,6 +4,7 @@ import soundtrack from './assets/soundtrack.mp3'
 
 const audio = new Audio(soundtrack)
 audio.loop = true
+audio.volume = 0.3
 
 const isAudioPlaying = ref(false)
 

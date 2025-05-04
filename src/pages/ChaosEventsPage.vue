@@ -2,17 +2,31 @@
 import { ref } from 'vue'
 import type { ChaosEvent } from '../data/events'
 import { events } from '../data/events'
+import diceRoll1 from '../assets/dice-rolls/dice-roll-1.mp3'
+import diceRoll2 from '../assets/dice-rolls/dice-roll-2.mp3'
+import diceRoll3 from '../assets/dice-rolls/dice-roll-3.mp3'
 
 const currentEvent = ref<ChaosEvent | null>(null)
 const isLoading = ref(false)
 const eventResultRef = ref<HTMLElement | null>(null)
 
-const getRandomEvent = async () => {
+let currentSoundIndex = 0
+const soundFiles = [diceRoll1, diceRoll2, diceRoll3]
+
+function playDiceSound() {
+  const audio = new Audio(soundFiles[currentSoundIndex])
+  audio.play()
+  currentSoundIndex = (currentSoundIndex + 1) % soundFiles.length
+}
+
+async function getRandomEvent() {
   isLoading.value = true
   currentEvent.value = null
 
+  playDiceSound()
+
   // Simulate a short delay for dramatic effect
-  await new Promise(resolve => setTimeout(resolve, 1000))
+  await new Promise(resolve => setTimeout(resolve, 1500))
 
   // Calculate total weight
   const totalWeight = events.reduce((sum, event) => sum + event.weight, 0)
@@ -37,6 +51,13 @@ const getRandomEvent = async () => {
   setTimeout(() => {
     eventResultRef.value?.scrollIntoView({ behavior: 'smooth', block: 'center' })
   }, 100)
+
+  setTimeout(() => {
+    if (selectedEvent.sound) {
+      const audio = new Audio(selectedEvent.sound)
+      audio.play()
+    }
+  }, 500)
 }
 </script>
 
@@ -59,8 +80,8 @@ const getRandomEvent = async () => {
       </div>
     </div>
 
-    <p class="note">
-      <b>Note:</b>
+    <p class="notes">
+      <b>Notes:</b>
       <br />
       When an effect targets a random hero, Zargon must roll a D4 and use the result to count in a
       clockwise direction from themselves to determine which hero to target.
@@ -174,7 +195,7 @@ h1 {
   font-style: italic;
 }
 
-.note {
+.notes {
   margin-top: 2rem;
   font-size: 0.8rem;
   font-style: italic;
